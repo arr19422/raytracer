@@ -1,5 +1,6 @@
 from lib import *
 from sphere import *
+from plane import *
 from math import log, pi, tan
 
 BLACK = color(0,0,0)
@@ -134,16 +135,16 @@ glass = Material(diffuse=color(255, 255, 255), albedo=[0, 0.5, 0.1, 0.8], spec=1
 r = RayTracer(1000, 1000)
 
 r.light = Light(
-  position=V3(-20, -20,  20),
+  position=V3(-20, -20,  30),
   intensity=2, 
   color=color(255,255,200)
 )
 
-r.background_color = color(0, 0, 0)
+r.background_color = color(50,150,100)
 
 r.scene = [
   Sphere(V3(0, -1.5, -10), 1.5, ivory),
-  Sphere(V3(-2, 1, -5), 2, glass),
+  Sphere(V3(-1.5, 1, -5), 1.2, glass),
   Sphere(V3(1, -1, -8), 1, rubber),
   Sphere(V3(0, 5, -20), 2, mirror)
 ]
