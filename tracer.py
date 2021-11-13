@@ -1,5 +1,7 @@
 from lib import *
 from sphere import *
+from pyramid import *
+from cube import *
 from plane import *
 from math import log, pi, tan
 
@@ -7,6 +9,19 @@ BLACK = color(0,0,0)
 
 MAX_RECURSION_DEPTH = 3
 
+# [30 puntos] por implementar figuras geométricas distintas a esferas, cubos, rectangulos y planos
+
+# [5 puntos] por cada material diferente que implementen, para un máximo de 5
+
+# [10 puntos] por implementar refracción en al menos uno de sus materiales
+
+# [5 puntos] por implementar reflexión en al menos uno de sus materiales
+
+# [20 puntos] Criterio subjetivo. Por qué tan compleja sea su escena
+
+# [30 puntos] Criterio subjetivo. por qué tan visualmente atractiva sea su escena
+
+# [5 puntos] por implementar un envmap
 
 class RayTracer(object):
     def __init__(self, width, height):
@@ -15,12 +30,13 @@ class RayTracer(object):
         self.background_color = BLACK
         self.scene = []
         self.light = None
+        self.envmap = None
         self.clear()
 
     
     def clear(self):
         self.pixels = [
-            [self.background_color for _ in range(self.width)]
+            [-float('inf') for _ in range(self.width)]
             for _ in range(self.height)
         ]
 
@@ -37,6 +53,8 @@ class RayTracer(object):
         material, intersect = self.scene_intersect(origin, direction)
 
         if material is None or recursion >= MAX_RECURSION_DEPTH:
+            if self.envmap:
+                return self.envmap.get_color(direction)
             return self.background_color
 
         light_dir = norm(sub(self.light.position, intersect.point))
@@ -127,27 +145,64 @@ class RayTracer(object):
                 self.point(x, y, col)
         
 
-ivory = Material(diffuse=color(100, 100, 80), albedo=[0.6, 0.3, 0.1, 0], spec= 50)
-rubber = Material(diffuse=color(80, 0, 0), albedo=[0.9, 0.1, 0.0, 0], spec=10)
-mirror = Material(diffuse=color(255, 255, 255), albedo=[0, 10, 0.8, 0], spec=1500)
-glass = Material(diffuse=color(255, 255, 255), albedo=[0, 0.5, 0.1, 0.8], spec=150, refractive_index=1.5)
+mercury = Material(diffuse=color(100, 100, 80), albedo=[0.6, 0.3, 0.1, 0], spec= 50)
+venus = Material(diffuse=color(80, 0, 0), albedo=[0.9, 0.1, 0.0, 0], spec=10)
+metal = Material(diffuse=color(191, 191, 191),albedo=[0,5,0.8,0],spec=1500)
+glass = Material(diffuse=color(150,180,200),albedo=[0,0.5,0.1,0.8],spec=150, refractive_index=1.5)
+giant_gas = Material(diffuse=color(154, 157, 163), albedo=(0.4, 0.5, 0.1, 0.3), spec=150, refractive_index=0.001)
+black_hole = Material(diffuse=color(0, 0, 0), albedo=(0, 0, 0.9, 0.9), spec=1000, refractive_index=2)
 
-r = RayTracer(1000, 1000)
+import time
+start_time = time.time() 
+r = RayTracer(1440, 900)
+
+r.envmap = Envmap('./background.bmp')
 
 r.light = Light(
-  position=V3(-20, -20,  30),
+  position=V3(10, 5, 5),
   intensity=2, 
   color=color(255,255,200)
 )
 
-r.background_color = color(50,150,100)
+r.background_color = color(150,80,120)
 
 r.scene = [
-  Sphere(V3(0, -1.5, -10), 1.5, ivory),
-  Sphere(V3(-1.5, 1, -5), 1.2, glass),
-  Sphere(V3(1, -1, -8), 1, rubber),
-  Sphere(V3(0, 5, -20), 2, mirror)
+    #planetas pequeños y sus satelites
+    Sphere(V3(-5, -1.5, -10), 1.5, venus),
+    # Cube(V3(-7.4, -2, -10.5), 0.9, metal),
+    # Cube(V3(-7.2, -1.5, -10.5), 1.3, metal),
+
+    Sphere(V3(-3, 5, -15), 1.5, venus),
+    # Cube(V3(-1.5, 6, -16), 0.9, metal),
+    # Cube(V3(-2, 7, -16.5), 1, metal),
+
+    Sphere(V3(-5, -1.5, -10), 1.5, venus),
+    # Cube(V3(-3, -1.3, -9), 0.9, metal),
+    # Cube(V3(-2.8, 1.2, -7), 1.7, metal),
+
+    Sphere(V3(-5, -1.5, -10), 1.5, venus),
+    # Cube(V3(-3, -1.3, -9), 0.9, metal),
+    # Cube(V3(-2.8, 1.2, -7), 1.7, metal),
+
+    Sphere(V3(-4, -1.7, -16), 2, mercury),
+    Sphere(V3(-8, -10, -9), 2, mercury),
+    Sphere(V3(9, 8, -7), 2, mercury),
+    Sphere(V3(0, -7, -16), 2, mercury),
+
+
+    #gigante gaseoso y sus satelites
+    Sphere(V3(8, -1, -12), 3.5, giant_gas),
+    Cube(V3(1.6, -1, -10), 1, metal),
+    Cube(V3(1.9, -0.5, -9), 1, metal),
+    Cube(V3(2, 1.5, -7), 1.5, metal),
+
+    # Agujero negro con reflecciones y refracciones
+    Sphere(V3(0, 0, -20), 5, black_hole),
+
+    Pyramid([V3(-6.3, -5, -12),  V3(-1, 7, -14), V3(4.5, -3, -10),  V3(1, 0, -10)], glass),
+    Pyramid([V3(1, -7, -14),  V3(-6.3, 2, -12), V3(4.5, 3, -10),  V3(1, 0, -10)], glass),
 ]
 
 r.render()
 r.write('r.bmp')
+print("--- Render done in %s seconds ---" % (time.time() - start_time))

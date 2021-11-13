@@ -2,21 +2,22 @@ from lib import *
 from sphere import *
 
 class Plane(object):
-  def __init__(self, y, material):
-    self.y = y
-    self.material = material
+    """
+    Creates a new Plane model    
+    """
+    def __init__(self, position, normal, material):
+        self.position = position
+        self.normal = norm(normal)
+        self.material = material
 
-  def ray_intersect(self, orig, direction):
-    d = -(orig.y + self.y) / direction.y
-    pt = sum(orig, mul(direction, d))
+    def ray_intersect(self, origin, direction):
+        d = dot(direction, self.normal)
 
-    if d <= 0 or abs(pt.x) > 2 or pt.z > -5 or pt.z < -10:
-      return None
+        if abs(d) > 0.0001:
+            t = dot(self.normal, sub(self.position, origin)) / d
+            if t > 0:
+                hit = sum(origin, V3(direction.x * t, direction.y * t, direction.z * t))
 
-    normal = V3(0, 1, 0)
+                return Intersect(distance=t, point=hit, normal=self.normal)
 
-    return Intersect(
-      distance=d,
-      point=pt,
-      normal=normal
-    )
+        return None
