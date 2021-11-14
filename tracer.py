@@ -147,7 +147,7 @@ class RayTracer(object):
 
 mercury = Material(diffuse=color(100, 100, 80), albedo=[0.6, 0.3, 0.1, 0], spec= 50)
 venus = Material(diffuse=color(80, 0, 0), albedo=[0.9, 0.1, 0.0, 0], spec=10)
-metal = Material(diffuse=color(191, 191, 191),albedo=[0,5,0.8,0],spec=1500)
+metal = Material(diffuse=color(191, 191, 191),albedo=[0.4,1,0.8,0],spec=1500)
 glass = Material(diffuse=color(150,180,200),albedo=[0,0.5,0.1,0.8],spec=150, refractive_index=1.5)
 giant_gas = Material(diffuse=color(154, 157, 163), albedo=(0.4, 0.5, 0.1, 0.3), spec=150, refractive_index=0.001)
 black_hole = Material(diffuse=color(0, 0, 0), albedo=(0, 0, 0.9, 0.9), spec=1000, refractive_index=2)
@@ -169,32 +169,29 @@ r.background_color = color(150,80,120)
 r.scene = [
     #planetas pequeños y sus satelites
     Sphere(V3(-5, -1.5, -10), 1.5, venus),
-    # Cube(V3(-7.4, -2, -10.5), 0.9, metal),
+    Cube(V3(-7.5, -1.7, -10), 0.9, metal),
 
-    Sphere(V3(-3, 5, -15), 1.5, venus),
-    # Cube(V3(-1.5, 6, -16), 0.9, metal),
+    Sphere(V3(-3, 3, -15), 1.5, venus),
+    Cube(V3(-5, 3.5, -16), 0.9, metal),
 
-    Sphere(V3(-5, -1.5, -10), 1.5, venus),
-    # Cube(V3(-3, -1.3, -9), 0.9, metal),
+    Sphere(V3(-6, -6.5, 6), 1.5, venus),
+    Cube(V3(-8, -6.6, 6), 0.9, metal),
 
-    Sphere(V3(-5, -1.5, -10), 1.5, venus),
-    # Cube(V3(-3, -1.3, -9), 0.9, metal),
+    Sphere(V3(5, -4.5, -10), 1.5, venus),
+    Cube(V3(7, -4.3, -9), 0.9, metal),
 
     Sphere(V3(-4, -1.7, -16), 2, mercury),
     Sphere(V3(-8, -10, -9), 2, mercury),
-    Sphere(V3(9, 8, -7), 2, mercury),
-    Sphere(V3(0, -7, -16), 2, mercury),
+    Sphere(V3(0, -8, -16), 2, mercury),
 
 
     #gigante gaseoso y sus satelites
+    Sphere(V3(9, 8, -7), 2, giant_gas),
     Sphere(V3(8, -1, -12), 3.5, giant_gas),
-    # Cube(V3(1.6, -1, -10), 1, metal),
-    # Cube(V3(1.9, -0.5, -9), 1, metal),
-    # Cube(V3(2, 1.5, -7), 1.5, metal),
+    Cube(V3(10.5, -0.5, -7.5), 1.5, metal),
 
     # Agujero negro con reflecciones y refracciones
     Sphere(V3(0, 0, -20), 5, black_hole),
-
     Pyramid([V3(-6.3, -5, -12),  V3(-1, 7, -14), V3(4.5, -3, -10),  V3(1, 0, -10)], glass),
     Pyramid([V3(1, -7, -14),  V3(-6.3, 2, -12), V3(4.5, 3, -10),  V3(1, 0, -10)], glass),
 ]

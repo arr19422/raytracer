@@ -3,9 +3,6 @@ from plane import *
 from triangle import *
 
 class Pyramid(object):
-    """
-    Creates a new Pyramid model (made of 4 triangles)
-    """
 
     def __init__(self, vertices, material):
         self.faces = self.generate_faces(vertices, material)

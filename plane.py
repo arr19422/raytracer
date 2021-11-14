@@ -2,9 +2,7 @@ from lib import *
 from sphere import *
 
 class Plane(object):
-    """
-    Creates a new Plane model    
-    """
+
     def __init__(self, position, normal, material):
         self.position = position
         self.normal = norm(normal)
