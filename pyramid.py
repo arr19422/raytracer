@@ -15,9 +15,9 @@ class Pyramid(object):
         if len(vertices) != 4:
             return [None, None, None, None]
         v0, v1, v2, v3 = vertices
-        # (-5,-2,-4),(-3,-4,-4.5),(-1,-2,-4), (4, -4, -4)
+         # (2, -2, -8),  (1.3, 1.7, -8), (3.3, 1.5, -8),  (1, 1.5, -8) 
         faces = [
-            Triangle([v0, v3, v2], material), # (2, -2, -8),  (1.3, 1.7, -8), (3.3, 1.5, -8),  (1, 1.5, -8) 
+            Triangle([v0, v3, v2], material),
             Triangle([v0, v1, v2], material), 
             Triangle([v1, v3, v2], material), 
             Triangle([v0, v1, v3], material), 

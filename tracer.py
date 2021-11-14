@@ -170,19 +170,15 @@ r.scene = [
     #planetas pequeños y sus satelites
     Sphere(V3(-5, -1.5, -10), 1.5, venus),
     # Cube(V3(-7.4, -2, -10.5), 0.9, metal),
-    # Cube(V3(-7.2, -1.5, -10.5), 1.3, metal),
 
     Sphere(V3(-3, 5, -15), 1.5, venus),
     # Cube(V3(-1.5, 6, -16), 0.9, metal),
-    # Cube(V3(-2, 7, -16.5), 1, metal),
 
     Sphere(V3(-5, -1.5, -10), 1.5, venus),
     # Cube(V3(-3, -1.3, -9), 0.9, metal),
-    # Cube(V3(-2.8, 1.2, -7), 1.7, metal),
 
     Sphere(V3(-5, -1.5, -10), 1.5, venus),
     # Cube(V3(-3, -1.3, -9), 0.9, metal),
-    # Cube(V3(-2.8, 1.2, -7), 1.7, metal),
 
     Sphere(V3(-4, -1.7, -16), 2, mercury),
     Sphere(V3(-8, -10, -9), 2, mercury),
@@ -192,9 +188,9 @@ r.scene = [
 
     #gigante gaseoso y sus satelites
     Sphere(V3(8, -1, -12), 3.5, giant_gas),
-    Cube(V3(1.6, -1, -10), 1, metal),
-    Cube(V3(1.9, -0.5, -9), 1, metal),
-    Cube(V3(2, 1.5, -7), 1.5, metal),
+    # Cube(V3(1.6, -1, -10), 1, metal),
+    # Cube(V3(1.9, -0.5, -9), 1, metal),
+    # Cube(V3(2, 1.5, -7), 1.5, metal),
 
     # Agujero negro con reflecciones y refracciones
     Sphere(V3(0, 0, -20), 5, black_hole),
@@ -205,4 +201,3 @@ r.scene = [
 
 r.render()
 r.write('r.bmp')
-print("--- Render done in %s seconds ---" % (time.time() - start_time))
